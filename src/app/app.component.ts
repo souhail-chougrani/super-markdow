@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   themes = [
     { value: 'default-theme', label: 'Blue' },
     { value: 'light-theme', label: 'Light' },
-    { value: 'nature-theme', label: 'Nature' },
     { value: 'black-theme', label: 'Dark' }
   ];
   currentRoot!: FileElement | null;
@@ -27,11 +26,8 @@ export class AppComponent implements OnInit {
   canNavigateUp = false;
   fileElements!: any[];
 
-  private _mobileQueryListener!: () => void;
   constructor(
     private overlayContainer: OverlayContainer,
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
     public fileService: FileService
   ) {
   }
@@ -82,7 +78,6 @@ export class AppComponent implements OnInit {
   }
 
   removeElement(element: FileElement) {
-    console.log(element)
     this.fileService.delete(element.id as string);
     this.fileService.queryFolder();
   }

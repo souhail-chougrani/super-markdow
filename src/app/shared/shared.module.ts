@@ -6,8 +6,6 @@ import { SidebarFilterComponent } from './sidebar-filter/sidebar-filter.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { MarkdownComponent } from './markdown/markdown.component';
-import { MarkdownEditComponent } from './markdown/markdown-edit/markdown-edit.component';
-import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
 import { MarkdownModule } from 'ngx-markdown';
 
 
@@ -18,8 +16,6 @@ import { MarkdownModule } from 'ngx-markdown';
     SidebarFilterComponent,
     FileManagerComponent,
     MarkdownComponent,
-    MarkdownEditComponent,
-    MarkdownPreviewComponent
   ],
   imports: [
     CommonModule,

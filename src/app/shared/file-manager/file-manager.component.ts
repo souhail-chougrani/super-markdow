@@ -59,7 +59,7 @@ export class FileManagerComponent implements OnInit {
   }
 
   onRemoveFile(element:FileElement){
-    console.log(element)
-    this.removeFile.emit(element)
-  }
+    this.fileService.delete(element.id as string);
+    this.fileService.queryFolder();
+    }
 }

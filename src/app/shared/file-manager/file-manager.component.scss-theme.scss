@@ -30,6 +30,7 @@
         font-size: 24px;  
         margin-right: 18px;
         font-weight: 500;
+        color: mat.get-color-from-palette($accent) ;
   
       }
       .displayName{
