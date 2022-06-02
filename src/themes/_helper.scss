@@ -1,0 +1,31 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use 'palette' as palette;
+
+@function define-light-theme($config) {
+    $theme: mat.define-light-theme($config);
+    $color: map.get($theme, color);
+    $color: map.merge($color,
+        (background: palette.$light-theme-background,
+            foreground: palette.$light-theme-foreground,
+        ));
+    @return map.merge($theme,
+        (color: $color,
+        ));
+}
+
+@function define-dark-theme($config) {
+    $theme: mat.define-dark-theme($config);
+    $color: map.get($theme, color);
+
+    $color-to-map: map.merge($color,
+        (background: palette.$dark-theme-background,
+            foreground: palette.$dark-theme-foreground,
+        ));
+    @return map.merge($theme,
+        (color: $color-to-map,
+        ));
+
+
+}
+

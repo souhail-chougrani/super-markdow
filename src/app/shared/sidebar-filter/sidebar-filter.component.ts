@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { switchMap, tap } from 'rxjs';
+import { FileService } from 'src/app/services/file.service';
 
 @Component({
   selector: 'app-sidebar-filter',
@@ -10,9 +12,13 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class SidebarFilterComponent implements OnInit {
   tags = new Set(['angular', 'how-to', 'tutorial']);
   tagesFrom : FormControl = new FormControl(null);
-  constructor() { }
+  filterForm : FormControl = new FormControl("");
+  constructor(private fileService : FileService) { }
 
   ngOnInit(): void {
+    this.filterForm.valueChanges.pipe(
+      switchMap(value=>this.fileService.filterFiles(value)),
+    ).subscribe();
   }
 
   addKeywordFromInput(event: MatChipInputEvent) {

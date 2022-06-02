@@ -22,33 +22,34 @@
 // here import custom components themes
 
 @import './app/shared/file-manager/file-manager.component.scss-theme.scss';
-
+@import './app/shared/markdown/markdown.component.scss-theme.scss';
 
 @mixin custom-components-theme($theme) {
   // here include custom components themes
  @include app-file-manager($theme);
  @include angular-material-overrides($theme);
+ @include app-markdown($theme);
 
 }
 
 .default-theme {
-  @include mat.all-component-themes($anms-theme);
-  @include custom-components-theme($anms-theme);
+  @include mat.all-component-themes($app-default-theme);
+  @include custom-components-theme($app-default-theme);
 }
 
 .light-theme {
-  @include mat.all-component-themes($anms-light-theme);
-  @include custom-components-theme($anms-light-theme);
+  @include mat.all-component-themes($app-light-theme);
+  @include custom-components-theme($app-light-theme);
 }
 
 .black-theme {
-  @include mat.all-component-themes($anms-black-theme);
-  @include custom-components-theme($anms-black-theme);
+  @include mat.all-component-themes($app-black-theme);
+  @include custom-components-theme($app-black-theme);
 }
 
 .nature-theme {
-  @include mat.all-component-themes($anms-nature-theme);
-  @include custom-components-theme($anms-nature-theme);
+  @include mat.all-component-themes($app-nature-theme);
+  @include custom-components-theme($app-nature-theme);
 }
 
 

@@ -17,48 +17,78 @@ export interface IFileService {
 
 @Injectable({providedIn:'root'})
 export class FileService implements IFileService {
-  private map = new Map<string, FileElement>();
+  private dataSource = new Map<string, FileElement>();
   private querySubject: BehaviorSubject<FileElement[]> = new BehaviorSubject([] as FileElement[]) ;
   
   constructor() {}
 
   add(fileElement: FileElement) {
     fileElement.id = uuid.v4();
-    this.map.set(fileElement.id, this.clone(fileElement));
+    this.dataSource.set(fileElement.id, this.clone(fileElement));
     return fileElement;
   }
 
   delete(id: string) {
-    this.map.delete(id);
+    this.dataSource.delete(id);
   }
 
   update(id: string, update: Partial<FileElement>) {
-    let element = this.map.get(id);
+    let element = this.dataSource.get(id);
     element = Object.assign(element, update);
     if(element){
-        this.map.set(element.id as string, element);
+        this.dataSource.set(element.id as string, element);
     }
   }
 
   queryFolder() {
     let result :any;
-    this.map.forEach(element => {
+    this.dataSource.forEach(element => {
         if(element.isFolder || (!element.isFolder && element.parent==='root')){
             result ={...result,[element.id as string]:{...element,children:[]}};
         }
     
-        this.map.forEach(e=>{
+        this.dataSource.forEach(e=>{
             if (e.parent === element.id) {
                 result[e.parent as string].children = [...result[e.parent as string].children,e]
             }
         })
     });
-    this.querySubject.next( Object.values(result));
+    this.querySubject.next( Object.values(result ?? {}));
+    return this.querySubject.asObservable();
+  }
+
+  
+  filterFiles(filter:string) {
+    let result :any;
+    let original = this.dataSource
+    original =  new Map(
+      Array.from(this.dataSource).filter(([key, value]) => {
+        if (value.name.includes(filter)) {
+          return true;
+        }else{
+          return false
+        }
+    
+      }),
+    );
+    
+    original.forEach(element => {
+        if(element.isFolder || (!element.isFolder && element.parent==='root')){
+            result ={...result,[element.id as string]:{...element,children:[]}};
+        }
+    
+        original.forEach(e=>{
+            if (e.parent === element.id) {
+                result[e.parent as string].children = [...result[e.parent as string].children,e]
+            }
+        })
+    });
+    this.querySubject.next( Object.values(result??{}));
     return this.querySubject.asObservable();
   }
 
   get(id: string) {
-    return this.map.get(id) as FileElement;
+    return this.dataSource.get(id) as FileElement;
   }
 
   clone(element: FileElement) {
