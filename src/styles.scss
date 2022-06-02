@@ -1,0 +1,71 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+@import 'styles-variables';
+
+@import 'styles-reset';
+
+@include mat.core();
+
+@import './themes/default-theme';
+@import './themes/light-theme';
+@import './themes/black-theme';
+@import './themes/nature-theme';
+
+@import 'styles-reset.scss-theme';
+
+//custom
+@import './angular-material-overrides.scss';
+
+
+// here import custom components themes
+
+@import './app/shared/file-manager/file-manager.component.scss-theme.scss';
+
+
+@mixin custom-components-theme($theme) {
+  // here include custom components themes
+ @include app-file-manager($theme);
+ @include angular-material-overrides($theme);
+
+}
+
+.default-theme {
+  @include mat.all-component-themes($anms-theme);
+  @include custom-components-theme($anms-theme);
+}
+
+.light-theme {
+  @include mat.all-component-themes($anms-light-theme);
+  @include custom-components-theme($anms-light-theme);
+}
+
+.black-theme {
+  @include mat.all-component-themes($anms-black-theme);
+  @include custom-components-theme($anms-black-theme);
+}
+
+.nature-theme {
+  @include mat.all-component-themes($anms-nature-theme);
+  @include custom-components-theme($anms-nature-theme);
+}
+
+
+
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 100px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border-left: 0;
+  border-right: 0;
+  background-color: #9d9d9e;
+}

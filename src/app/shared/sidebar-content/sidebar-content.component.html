@@ -1,0 +1,22 @@
+<div class="side-bar-content">
+    <div class="filter">
+        <app-sidebar-filter>
+            <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="addNewFolder.emit()">
+                    <span>Add new folder</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="addNewFile.emit()">
+                    <span>Add new file</span>
+                </button>
+            </mat-menu>
+        </app-sidebar-filter>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</div>

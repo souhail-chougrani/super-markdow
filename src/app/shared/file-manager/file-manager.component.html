@@ -1,0 +1,44 @@
+<a mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px'}" (click)="onItemSelected(fileElement)"
+    [ngClass]="{'expanded': expanded}" class="menu-list-item">
+    <mat-icon class="icon">{{fileElement.isFolder ? 'folder' : 'note' }}</mat-icon>
+    <span class="displayName"> {{fileElement?.name}} </span>
+    <span *ngIf="fileElement.children && fileElement.children.length">
+        <mat-icon class="expand" [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+            expand_more
+        </mat-icon>
+    </span>
+    <span style="flex:1 1 auto"></span>
+    <button mat-icon-button [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: fileElement , folders:folders}"
+        #menuTrigger="matMenuTrigger">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+</a>
+<div *ngIf="expanded">
+    <app-file-manager [folders]="folders" *ngFor="let child of fileElement.children" [fileElement]="child" [depth]="depth+1">
+    </app-file-manager>
+</div>
+
+
+<mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
+    <ng-template matMenuContent let-folders="folders" let-element="element">
+
+        <button mat-menu-item (click)="onRemoveFile(element)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+        </button>
+        <button *ngIf="!element.isFolder && element.parent==='root' "  mat-menu-item [matMenuTriggerFor]="moveToMenu" [matMenuTriggerData]="{folders:folders, self: element}">
+            <mat-icon>add</mat-icon>
+            <span>Move to </span>
+        </button>
+    </ng-template>
+</mat-menu>
+
+<mat-menu #moveToMenu="matMenu">
+    <ng-template matMenuContent let-folders="folders" let-self="self">
+        <ng-container *ngFor="let element of folders">
+            <button *ngIf="element.isFolder"  mat-menu-item
+                (click)="moveFile.emit({self, element})">{{element.name}}
+            </button>
+        </ng-container>
+    </ng-template>
+</mat-menu>

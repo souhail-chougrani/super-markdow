@@ -1,0 +1,31 @@
+<div class="filter-text">
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search...">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+      <ng-content></ng-content>
+</div>
+<div>
+    <mat-form-field class="fill-width" appearance="outline">
+        <mat-label>Filter by tags</mat-label>
+        <mat-chip-list #chipList aria-label="Video keywords" multiple [formControl]="tagesFrom">
+          <mat-chip
+          color="accent" selected
+            *ngFor="let keyword of tags"
+          [selected]="keyword"
+          [value]="keyword"
+           
+              (removed)="removeKeyword(keyword)">
+            {{keyword}}
+            <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+          </mat-chip>
+          <input
+            placeholder="New keyword..."
+            [matChipInputFor]="chipList"
+            (matChipInputTokenEnd)="addKeywordFromInput($event)">
+        </mat-chip-list>
+      </mat-form-field>
+</div>

@@ -1,0 +1,54 @@
+$side-bar-width : 400px;
+
+.theme-wrapper {
+    height: 100%;
+    width: 100%;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .toolbar {
+            min-height: 4rem;
+            position: relative;
+            z-index: 2;
+
+            .config {
+                margin: 0 0 0 auto;
+            }
+        }
+
+        .sidenav-container {
+            height: 100%;
+
+            .mat-sidenav {
+                width: $side-bar-width;
+                position: absolute;
+
+                .mat-nav-list {
+                    height: 100%;
+                    padding: 0;
+                }
+            }
+
+        }
+    }
+}
+
+.setting-header {
+    margin: .5rem 0;
+    text-align: center;
+
+}
+
+.mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    width: 10rem;
+
+    .mat-radio-button {
+        margin: .1rem;
+    }
+}

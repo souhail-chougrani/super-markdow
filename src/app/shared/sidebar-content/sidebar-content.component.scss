@@ -1,0 +1,17 @@
+.side-bar-content{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .filter{
+        height: 13rem;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    .content{
+        flex: 1;
+        overflow: auto;
+    }
+}

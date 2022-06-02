@@ -1,0 +1,53 @@
+<mat-drawer-container class="container">
+    <mat-drawer position="end" #drawer [mode]="'side'">
+        <mat-toolbar>
+            <h4> Preview</h4>
+            <span style="flex:1 1 auto"></span>
+            <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <markdown class="variable-binding" [data]="markdown.value"></markdown>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="markdown-edit-container">
+            <div class="markdown-info">
+                <div class="actions">
+                    <mat-form-field   appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput placeholder="Title">
+                    </mat-form-field>
+                    <button color="warn" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button color="accent" mat-icon-button (click)="drawer.toggle()">
+                        <mat-icon matSuffix>{{drawer.opened ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <button color="accent" mat-icon-button>
+                        <mat-icon>create_new_folder</mat-icon>
+                    </button>
+                </div>
+                <div>
+                    <mat-form-field class="fill-width" appearance="outline">
+                        <mat-label>Filter by tags</mat-label>
+                        <mat-chip-list #chipList aria-label="Video keywords" multiple [formControl]="tagesFrom">
+                            <mat-chip *ngFor="let keyword of tags" [selected]="keyword" [value]="keyword"
+                                (removed)="removeKeyword(keyword)">
+                                {{keyword}}
+                                <button matChipRemove>
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip>
+                            <input placeholder="New keyword..." [matChipInputFor]="chipList"
+                                (matChipInputTokenEnd)="addKeywordFromInput($event)">
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="markdown-edit">
+                <textarea class="variable-textarea" [formControl]="markdown"></textarea>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

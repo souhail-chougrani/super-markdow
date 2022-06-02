@@ -1,0 +1,269 @@
+@use "./styles-variables.scss" as variables;
+
+
+@mixin angular-material-overrides($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn : map-get($theme, warn);
+    $foreground: map-get($theme, foreground);
+    $background: map-get($theme, background);
+
+
+
+    /* ----------------------------------------------------------------------------------------------------- */
+    /*  @ Form fields
+/* ----------------------------------------------------------------------------------------------------- */
+    .mat-form-field.mat-form-field-appearance-outline {
+
+
+
+        &.sii-mat-rounded {
+            .mat-form-field-outline-start {
+                border-radius: 1.25rem 0 0 1.25rem !important;
+            }
+
+            .mat-form-field-outline-end {
+                border-radius: 0 1.25rem 1.25rem 0 !important;
+
+            }
+        }
+
+        &.medium-size {
+            font-size: 12px;
+        }
+
+        &.small-size {
+            font-size: 10px;
+        }
+    }
+
+
+    /* ----------------------------------------------------------------------------------------------------- */
+    /*  @ Buttons
+/* ----------------------------------------------------------------------------------------------------- */
+
+    .mat-button,
+    .mat-fab,
+    .mat-flat-button,
+    .mat-icon-button,
+    .mat-mini-fab,
+    .mat-raised-button,
+    .mat-stroked-button {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        height: 2.5rem;
+        min-height: 2.5rem;
+        max-height: 2.5rem;
+        line-height: 1 !important;
+
+        .mat-button-wrapper {
+            position: relative;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .mat-button-focus-overlay,
+        .mat-button-ripple {
+            z-index: 1;
+        }
+
+        &.sii-mat-button-large {
+            height: 3rem;
+            min-height: 3rem;
+            max-height: 3rem;
+        }
+
+        &.mat-button-disabled {
+
+            .mat-icon {
+                opacity: 0.38 !important;
+            }
+        }
+
+    }
+
+
+    .mat-button,
+    .mat-flat-button,
+    .mat-raised-button,
+    .mat-stroked-button {
+        padding: 0 1.25rem !important;
+        border-radius: 9999px !important;
+    }
+
+
+    .mat-button,
+    .mat-fab,
+    .mat-flat-button,
+    .mat-icon-button,
+    .mat-fab,
+    .mat-mini-fab,
+    .mat-raised-button,
+    .mat-stroked-button {
+
+        .mat-progress-spinner {
+
+            &.mat-progress-spinner-indeterminate-animation[mode=indeterminate] {
+
+                circle {
+                    stroke: currentColor !important;
+                    animation-duration: 6000ms;
+                }
+            }
+        }
+    }
+
+    .mat-flat-button,
+    .mat-raised-button,
+    .mat-fab,
+    .mat-mini-fab {
+
+        .mat-icon {
+            color: currentColor !important;
+        }
+
+        .mat-button-focus-overlay {
+            background-color: rgba(map-get(variables.$grey-colors, 700), .3) !important;
+        }
+
+        &.mat-primary,
+        &.mat-accent,
+        &.mat-warn {
+
+            .mat-button-focus-overlay {
+                background-color: rgba(0, 0, 0, 0.1) !important;
+            }
+        }
+
+        &:hover,
+        &.cdk-keyboard-focused,
+        &.cdk-program-focused {
+
+            .mat-button-focus-overlay {
+                opacity: 1 !important;
+            }
+        }
+
+        @media (hover: none) {
+
+            &:hover {
+
+                .mat-button-focus-overlay {
+                    opacity: 0 !important;
+                }
+            }
+        }
+
+        &.mat-button-disabled {
+
+            .mat-button-focus-overlay {
+                opacity: 0 !important;
+            }
+        }
+    }
+
+    .mat-button,
+    .mat-icon-button,
+    .mat-stroked-button {
+
+        &.mat-primary:not(.mat-button-disabled) {
+
+            .mat-icon {
+                color: map-get($primary, default) !important;
+            }
+        }
+
+        &.mat-accent:not(.mat-button-disabled) {
+
+            .mat-icon {
+                color: map-get($accent, default) !important;
+            }
+        }
+
+        &.mat-warn:not(.mat-button-disabled) {
+
+            .mat-icon {
+                color: map-get($warn, default) !important;
+            }
+        }
+
+        &.mat-primary:not(.mat-button-disabled) {
+
+            .mat-button-focus-overlay {
+                background-color: map-get($primary, default) !important;
+            }
+        }
+
+        &.mat-accent:not(.mat-button-disabled) {
+                
+            .mat-button-focus-overlay {
+                background-color: map-get($accent, default) !important;
+            }
+        }
+
+        &.mat-warn:not(.mat-button-disabled) {
+
+            .mat-button-focus-overlay {
+                background-color: map-get($warn, default) !important;
+            }
+        }
+
+        &.mat-primary:not(.mat-button-disabled),
+        &.mat-accent:not(.mat-button-disabled),
+        &.mat-warn:not(.mat-button-disabled) {
+
+            &:hover,
+            &.cdk-keyboard-focused,
+            &.cdk-program-focused {
+
+                .mat-button-focus-overlay {
+                    opacity: 0.3 !important;
+                }
+            }
+        }
+
+        &:hover,
+        &.cdk-keyboard-focused,
+        &.cdk-program-focused {
+
+            .mat-button-focus-overlay {
+                opacity: .1 !important;
+            }
+        }
+
+        @media (hover: none) {
+
+            &:hover {
+
+                .mat-button-focus-overlay {
+                    opacity: 0 !important;
+                }
+            }
+        }
+
+        &.mat-button-disabled {
+
+            .mat-button-focus-overlay {
+                opacity: 0 !important;
+            }
+        }
+    }
+
+    .mat-stroked-button {
+
+        &:not(.mat-button-disabled) {
+            background-color: rgba(map-get(variables.$grey-colors, 700), .3) !important;
+        }
+
+        &.mat-button-disabled {
+            background-color: rgba(map-get(variables.$grey-colors, 700), .3) !important;
+        }
+    }
+
+ 
+
+}
