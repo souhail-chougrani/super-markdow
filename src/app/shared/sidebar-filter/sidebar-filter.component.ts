@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { switchMap, tap } from 'rxjs';
@@ -10,6 +10,11 @@ import { FileService } from 'src/app/services/file.service';
   styleUrls: ['./sidebar-filter.component.scss']
 })
 export class SidebarFilterComponent implements OnInit {
+  @Output()
+  addNewFolder :EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  addNewFile :EventEmitter<any> = new EventEmitter<any>();
+
   tags = new Set(['angular', 'how-to', 'tutorial']);
   tagesFrom : FormControl = new FormControl(null);
   filterForm : FormControl = new FormControl("");

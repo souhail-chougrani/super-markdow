@@ -1,0 +1,22 @@
+<div class="container">
+    <mat-sidenav-container class="sidenav-container" >
+      <mat-sidenav #snav [opened]="true" [mode]="'side'"
+        fixedTopGap="56">
+        <mat-nav-list>
+          <app-sidebar-content
+           (addNewFolder)="addFolder({name:'New folder'})" 
+           (addNewFile)="addFile({name:'New File'})">
+             <app-file-manager 
+               (removeFile)="removeElement($event)"
+               (moveFile)="moveElement($event)"
+               [folders]="fileElements" *ngFor="let item of fileElements" 
+               [fileElement]="item"
+               ></app-file-manager>
+          </app-sidebar-content>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <app-markdown></app-markdown>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@mixin app-component($theme) {
+    $color:map-get($theme, color );
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $foreground: map-get($theme, foreground);
+    $background: map-get($color, background);
+  
+    :host{
+        @debug map-get($color, background ,background);
+        background-color: map-get($color, background ,background)!important;
+    }
+   
+  
+  }
+
+
+

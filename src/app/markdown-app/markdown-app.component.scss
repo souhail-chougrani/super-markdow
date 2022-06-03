@@ -1,0 +1,24 @@
+
+$side-bar-width : 400px;
+
+:host{
+    height: 100%;
+}
+.container {
+  
+    height: 100%;
+    flex:1;
+    .sidenav-container {
+        height: 100%;
+
+        .mat-sidenav {
+            width: $side-bar-width;
+            position: absolute;
+            .mat-nav-list {
+                height: 100%;
+                padding: 0;
+            }
+        }
+
+    }
+}

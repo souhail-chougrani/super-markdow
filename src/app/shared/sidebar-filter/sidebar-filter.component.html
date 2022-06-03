@@ -4,8 +4,18 @@
         <input [formControl]="filterForm"  matInput placeholder="Search...">
         <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
-      <ng-content></ng-content>
-</div>
+      <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
+        <mat-icon>add</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="addNewFolder.emit()">
+            <span>Add new folder</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="addNewFile.emit()">
+            <span>Add new file</span>
+        </button>
+    </mat-menu></div>
 <div>
     <mat-form-field class="fill-width" appearance="outline">
         <mat-label>Filter by tags</mat-label>

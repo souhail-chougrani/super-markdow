@@ -1,37 +1,16 @@
-$side-bar-width : 400px;
 
 .theme-wrapper {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    .toolbar {
+        min-height: 4rem;
+        position: relative;
+        z-index: 2;
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-
-        .toolbar {
-            min-height: 4rem;
-            position: relative;
-            z-index: 2;
-
-            .config {
-                margin: 0 0 0 auto;
-            }
-        }
-
-        .sidenav-container {
-            height: 100%;
-
-            .mat-sidenav {
-                width: $side-bar-width;
-                position: absolute;
-
-                .mat-nav-list {
-                    height: 100%;
-                    padding: 0;
-                }
-            }
-
+        .config {
+            margin: 0 0 0 auto;
         }
     }
 }
