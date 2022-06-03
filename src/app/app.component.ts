@@ -90,7 +90,6 @@ export class AppComponent implements OnInit {
   }
 
   renameElement(element: FileElement) {
-    console.log(element);
     this.fileService.update(element.id as string, { name: element.name });
   }
 
