@@ -34,7 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-               "node_modules/marked/marked.min.js"
+              "node_modules/marked/marked.min.js"
             ]
           },
           "configurations": {
@@ -109,5 +109,8 @@
       }
     }
   },
-  "defaultProject": "super-markdown"
+  "defaultProject": "super-markdown",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
