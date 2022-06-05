@@ -7,32 +7,32 @@
                 <mat-icon>close</mat-icon>
             </button>
         </mat-toolbar>
-
-        <markdown class="variable-binding" [data]="markdown.value"></markdown>
+        <markdown class="variable-binding" [data]="fileContentform.get('markdown')?.value"></markdown>
     </mat-drawer>
     <mat-drawer-content>
-        <div class="markdown-edit-container">
-            <div class="markdown-info">
+        <ng-container *ngIf="selectedFile$ |async as selectedFile ,else newF">
+        <form [formGroup]="fileContentform" class="markdown-edit-container">
+            <div  class="markdown-info">
                 <div class="actions">
                     <mat-form-field   appearance="outline">
                         <mat-label>Title</mat-label>
-                        <input matInput placeholder="Title">
+                        <input formControlName="title" matInput placeholder="Title...">
                     </mat-form-field>
-                    <button color="warn" mat-icon-button>
+                    <button *ngIf="selectedFile?.id" color="warn" mat-icon-button (click)="onDelete(selectedFile.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
                     <button color="accent" mat-icon-button (click)="drawer.toggle()">
                         <mat-icon matSuffix>{{drawer.opened ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <button color="accent" mat-icon-button>
+                    <button color="accent" mat-icon-button (click)="selectedFile?.id ? onUpdate(selectedFile): onSave()">
                         <mat-icon>create_new_folder</mat-icon>
                     </button>
                 </div>
                 <div>
-                    <mat-form-field class="fill-width" appearance="outline">
+                    <mat-form-field  class="fill-width" appearance="outline">
                         <mat-label>Filter by tags</mat-label>
-                        <mat-chip-list #chipList aria-label="Video keywords" multiple [formControl]="tagesFrom">
-                            <mat-chip *ngFor="let keyword of tags" [selected]="keyword" [value]="keyword"
+                        <mat-chip-list formControlName="tags" #chipList aria-label="Video keywords" multiple formControlName="tags">
+                            <mat-chip *ngFor="let keyword of fileContentform.get('tags')?.value" [selected]="keyword" [value]="keyword"
                                 (removed)="removeKeyword(keyword)">
                                 {{keyword}}
                                 <button matChipRemove>
@@ -46,8 +46,49 @@
                 </div>
             </div>
             <div class="markdown-edit">
-                <textarea class="variable-textarea" [formControl]="markdown"></textarea>
+                <textarea class="variable-textarea" formControlName="markdown"></textarea>
             </div>
-        </div>
+        </form>
+    </ng-container>
+    <ng-template #newF>
+        <form [formGroup]="fileContentform" class="markdown-edit-container">
+            <div  class="markdown-info">
+                <div class="actions">
+                    <mat-form-field   appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input formControlName="title" matInput placeholder="Title...">
+                    </mat-form-field>
+                    <button *ngIf="selectedFile?.id" color="warn" mat-icon-button (click)="onDelete(selectedFile.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button color="accent" mat-icon-button (click)="drawer.toggle()">
+                        <mat-icon matSuffix>{{drawer.opened ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <button color="accent" mat-icon-button (click)="selectedFile?.id ? onUpdate(selectedFile): onSave()">
+                        <mat-icon>create_new_folder</mat-icon>
+                    </button>
+                </div>
+                <div>
+                    <mat-form-field  class="fill-width" appearance="outline">
+                        <mat-label>Filter by tags</mat-label>
+                        <mat-chip-list formControlName="tags" #chipList aria-label="Video keywords" multiple formControlName="tags">
+                            <mat-chip *ngFor="let keyword of fileContentform.get('tags')?.value" [selected]="keyword" [value]="keyword"
+                                (removed)="removeKeyword(keyword)">
+                                {{keyword}}
+                                <button matChipRemove>
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip>
+                            <input placeholder="New keyword..." [matChipInputFor]="chipList"
+                                (matChipInputTokenEnd)="addKeywordFromInput($event)">
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="markdown-edit">
+                <textarea class="variable-textarea" formControlName="markdown"></textarea>
+            </div>
+        </form>
+    </ng-template>
     </mat-drawer-content>
 </mat-drawer-container>

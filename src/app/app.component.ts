@@ -1,13 +1,20 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { FileElement } from './models/FileElement';
-import { FileService } from './services/file.service';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { select, Store } from '@ngrx/store';
+import { Observable, tap } from 'rxjs';
+import { AppState } from './app-store/app.state';
+import { actionSettingsChangeAutoNightMode, actionSettingsChangeTheme, actionSttingsToggle } from './app-store/settings/actions/settings.action';
+import { selectAutoNightMode, selectEffectiveTheme, selectSettings } from './app-store/settings/selectors/settings.selector';
+import { LocalStorageService } from './services/local-storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
 
@@ -18,30 +25,38 @@ export class AppComponent implements OnInit {
     { value: 'light-theme', label: 'Light' },
     { value: 'black-theme', label: 'Dark' }
   ];
+
+  settings$: any;
+  
+  theme$: Observable<string> | undefined;
+  autoNightMode$: Observable<boolean> | undefined;
  
 
   constructor(
-    private overlayContainer: OverlayContainer,
+    private storageService: LocalStorageService,
+    private store: Store<AppState>
   ) {
+
   }
 
   ngOnInit(): void {
-    this.setTheme();
+    this.storageService.testLocalStorage();
+    this.settings$ = this.store.pipe(select(selectSettings))
+    this.theme$ = this.store.pipe(select(selectEffectiveTheme),tap((value)=>this.theme.setValue(value)))
+
   }
 
-  setTheme() {
-    console.log(this.theme.value)
-    const classList =
-      this.overlayContainer.getContainerElement().classList;
-    const toRemove = Array.from(classList).filter((item: string) =>
-      item.includes('-theme')
-    );
-    if (toRemove.length) {
-      classList.remove(...toRemove);
-    }
-    classList.add(this.theme.value);
+  onThemeSelect(event: MatSelectChange) {
+    this.store.dispatch(actionSettingsChangeTheme({ theme: event.value }));
   }
- 
+  onAutoNightModeToggle(event: MatSlideToggleChange) {
+    this.store.dispatch(
+      actionSettingsChangeAutoNightMode({ autoNightMode: event.checked })
+    );
+  }
+  onToggleSidebar(){
+    this.store.dispatch(actionSttingsToggle())
+  }
 
   ngOnDestroy(): void {
   }

@@ -53,6 +53,7 @@ export class FileService implements IFileService {
             }
         })
     });
+    console.log(Array.from(this.dataSource).map(([k,value])=>({[k]:value})))
     this.querySubject.next( Object.values(result ?? {}));
     return this.querySubject.asObservable();
   }

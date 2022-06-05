@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { metaReducers, reducers } from './app-store/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { CustomSerializer } from './app-store/router/custom-serializer';
+import { SettingsEffects } from './app-store/settings/effects/settings.effect';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 const AngularMaterialModules = [
@@ -21,7 +28,9 @@ const AngularMaterialModules = [
   MatRadioModule,
   MatToolbarModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatSliderModule,
+  MatCheckboxModule
 ]
 
 @NgModule({
@@ -33,14 +42,19 @@ const AngularMaterialModules = [
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({}, {}),
-
+    
     ...AngularMaterialModules,
-
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreDevtoolsModule.instrument({name:"Markdown Editor", maxAge: 25, logOnly: environment.production }),
+    StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([SettingsEffects])
 
   ],
-  providers: [],
+  providers: [
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

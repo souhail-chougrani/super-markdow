@@ -1,5 +1,9 @@
 import { trigger, state, style, transition, animate, group } from '@angular/animations';
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app-store/app.state';
+import { removeFile, updateFile } from 'src/app/markdown-app/markdown-store';
 import { FileElement } from 'src/app/models/FileElement';
 import { FileService } from 'src/app/services/file.service';
 
@@ -9,6 +13,7 @@ import { FileService } from 'src/app/services/file.service';
   selector: 'app-file-manager',
   templateUrl: './file-manager.component.html',
   styleUrls: ['./file-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('indicatorRotate', [
       state('collapsed', style({ transform: 'rotate(0deg)' })),
@@ -27,7 +32,7 @@ export class FileManagerComponent implements OnInit {
   @Input() folders!: FileElement[];
   @Input() depth!: number;
 
-  
+
   @Output()
   removeFolder: EventEmitter<any> = new EventEmitter<any>();
   @Output()
@@ -39,8 +44,7 @@ export class FileManagerComponent implements OnInit {
 
   isCollapsed: boolean = true;
   isExpanded: boolean = false;
-  constructor(public fileService: FileService
-  ) {
+  constructor(public fileService: FileService, public router: Router, private store: Store<AppState>) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -50,16 +54,27 @@ export class FileManagerComponent implements OnInit {
 
   }
 
-  
+
   onItemSelected(item: FileElement) {
+    if (!item.isFolder) {
+      this.router.navigate(['markdown-app', item.id]);
+    }
 
     if (item.children && item.children.length) {
       this.expanded = !this.expanded;
     }
   }
 
-  onRemoveFile(element:FileElement){
-    this.fileService.delete(element.id as string);
-    this.fileService.queryFolder();
-    }
+  onRemoveFile(id: string) {
+    // this.fileService.delete(element.id as string);
+    //this.fileService.queryFolder();
+    this.store.dispatch(removeFile({ id }))
+  }
+
+  onMoveFile(self:FileElement, moveTo:FileElement){
+    self = {...self,parent:moveTo.name}
+    this.store.dispatch(updateFile({file:self}))
+  }
+
+
 }

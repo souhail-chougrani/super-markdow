@@ -12,7 +12,17 @@
       flex-direction: column;
       outline: none;
       width: 95%; 
+      &:hover,
+      &:focus {
+        >.mat-list-item:not(.expanded) {
+          background-color:  rgba(mat.get-color-from-palette($primary,50), .1)  !important;
+          transition:background-color .5s ease;
+          @include mat.elevation(1);
+  
+        }
+      }
     }
+    
     
     .mat-list-item {
       padding: 8px 0;
@@ -24,6 +34,7 @@
       &.active {
         background-color:rgba(map-get(variables.$grey-colors,700), .3)  !important;
         color: mat.get-color-from-palette($foreground, text) !important;
+        @include mat.elevation(1);
       }
   
       .icon {

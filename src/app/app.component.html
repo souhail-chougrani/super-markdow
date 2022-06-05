@@ -1,24 +1,32 @@
-<div [class]="'theme-wrapper ' + theme.value">
-  <mat-toolbar color="primary" class="mat-elevation-z1 toolbar">
-    <button mat-icon-button >
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="app-name">Markdown Editor</h1>
-    <div class="config">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>settings</mat-icon>
+<ng-container *ngIf="settings$ | async as settings">
+  <div [class]="'theme-wrapper ' + (theme$|async)">
+    <mat-toolbar color="primary" class="mat-elevation-z1 toolbar">
+      <button mat-icon-button (click)="onToggleSidebar()" >
+        <mat-icon>menu</mat-icon>
       </button>
-      <mat-menu  class="setting-menu" #menu="matMenu">
-        <h4 class="setting-header">Settings</h4>
-        <mat-divider></mat-divider>
-        <mat-radio-group aria-labelledby="radio-group-label" class="radio-group" [formControl]="theme"
-          (change)="setTheme()">
-          <mat-radio-button class="group-radio-button" *ngFor="let theme of themes" [value]="theme.value">
-            {{theme.label}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </mat-menu>
-    </div>
-  </mat-toolbar>
- <router-outlet></router-outlet>
-</div>
+      <h1 class="app-name">Markdown Editor</h1>
+      <div class="mat-hint mat-h6 autoNight-form-field"> 
+        <mat-checkbox  (change)="onAutoNightModeToggle($event)" [checked]="settings.autoNightMode">
+          Auto night mode (from 21:00 to 7:00)
+        </mat-checkbox>
+      </div>
+      <div class="config">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu  class="setting-menu" #menu="matMenu">
+          <h4 class="setting-header">Settings</h4>
+          <mat-divider></mat-divider>
+          <mat-radio-group aria-labelledby="radio-group-label"  class="radio-group" [formControl]="theme"
+          (change)="onThemeSelect($event)"
+          >
+            <mat-radio-button class="group-radio-button" *ngFor="let theme of themes" [value]="theme.value">
+              {{theme.label}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+   <router-outlet></router-outlet>
+  </div>
+</ng-container>

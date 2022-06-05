@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { switchMap, tap } from 'rxjs';
@@ -7,7 +7,8 @@ import { FileService } from 'src/app/services/file.service';
 @Component({
   selector: 'app-sidebar-filter',
   templateUrl: './sidebar-filter.component.html',
-  styleUrls: ['./sidebar-filter.component.scss']
+  styleUrls: ['./sidebar-filter.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class SidebarFilterComponent implements OnInit {
   @Output()

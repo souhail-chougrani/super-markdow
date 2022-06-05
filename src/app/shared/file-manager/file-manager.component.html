@@ -1,8 +1,9 @@
 <a mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px'}" (click)="onItemSelected(fileElement)"
-    [ngClass]="{'expanded': expanded}" class="menu-list-item">
+    [ngClass]="{'active':fileElement.id ? router.isActive('/markdown-app/'+fileElement.id,false): false, 'expanded': expanded}" class="menu-list-item">
     <mat-icon class="icon">{{fileElement.isFolder ? 'folder' : 'description' }}</mat-icon>
     <span class="displayName"> {{fileElement?.name}} </span>
     <span *ngIf="fileElement.children && fileElement.children.length">
+        
         <mat-icon class="expand" [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
             expand_more
         </mat-icon>
@@ -22,7 +23,7 @@
 <mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
     <ng-template matMenuContent let-folders="folders" let-element="element">
 
-        <button mat-menu-item (click)="$event.stopPropagation(); onRemoveFile(element)">
+        <button mat-menu-item (click)="$event.stopPropagation(); onRemoveFile(element?.id)">
             <mat-icon>delete</mat-icon>
             <span>Delete</span>
         </button>
@@ -36,8 +37,9 @@
 <mat-menu #moveToMenu="matMenu">
     <ng-template matMenuContent let-folders="folders" let-self="self">
         <ng-container *ngFor="let element of folders">
+            <!-- (click)="moveFile.emit({self, element})">{{element.name}} -->
             <button *ngIf="element.isFolder"  mat-menu-item
-                (click)="moveFile.emit({self, element})">{{element.name}}
+                (click)="onMoveFile(self, element)">{{element.name}}
             </button>
         </ng-container>
     </ng-template>
