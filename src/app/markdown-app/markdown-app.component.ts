@@ -1,63 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from '../app-store/app.state';
+import { selectToggleSidebar } from '../app-store/settings/selectors/settings.selector';
 import { FileElement } from '../models/FileElement';
 import { FileService } from '../services/file.service';
+import { addFile, getFilesVisualised, getSelectedFile, removeFile } from './markdown-store';
+import { FileState } from './markdown-store/reducers/file.reducer';
 
 @Component({
   selector: 'app-markdown-app',
   templateUrl: './markdown-app.component.html',
-  styleUrls: ['./markdown-app.component.scss']
+  styleUrls: ['./markdown-app.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class MarkdownAppComponent implements OnInit {
   fileElements!: any[];
-
-  constructor(public fileService: FileService) { }
+  filesElements$!:Observable<any[]>;
+  toggleSidebar$!:Observable<boolean>;
+  selectedFile$!:Observable<FileElement>;
+  constructor(public fileService: FileService,private store:Store<AppState>) { }
 
   ngOnInit(): void {
-    const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
-    const folderB = this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
-    this.fileService.add({ name: 'File C', isFolder: false, parent: folderA.id });
-    this.fileService.add({ name: 'File ROOT2', isFolder: false, parent: 'root' });
-    this.fileService.add({ name: 'File ROOT1', isFolder: false, parent: 'root' });
-    this.fileService.add({ name: 'File D', isFolder: false, parent: folderA.id });
-    this.fileService.add({ name: 'File E', isFolder: false, parent: folderB.id });
-    this.fileService.add({ name: 'File F', isFolder: false, parent: folderB.id });
-    this.fileService.add({ name: 'Folder G', isFolder: true, parent: 'root' });
-    this.fileService.queryFolder().subscribe(r => this.fileElements = r);
+    this.toggleSidebar$ = this.store.pipe(select(selectToggleSidebar));
+    this.filesElements$ = this.store.pipe(select(getFilesVisualised))
+    
   }
 
 
   addFolder(folder: { name: string }, parent?: FileElement) {
-    this.fileService.add({
-      isFolder: true,
-      name: folder.name,
-      parent: parent ? parent.id : 'root',
-    });
-    this.fileService.queryFolder();
+    const addedFolder :FileElement = {isFolder:true,name:folder.name,parent:'root'}
+    this.store.dispatch(addFile({file: addedFolder}))
   }
 
   addFile(file: { name: string }, parent?: FileElement) {
-    this.fileService.add({
-      isFolder: false,
-      name: file.name,
-      parent: parent ? parent.id : 'root',
-    });
-    this.fileService.queryFolder();
+    const addedFolder: FileElement = { isFolder: false, name: file.name, content: { title: "sss", body: "sss" }, parent: 'root' }
+    this.store.dispatch(addFile({file: addedFolder}))
   }
 
-  removeElement(element: FileElement) {
-    this.fileService.delete(element.id as string);
-    this.fileService.queryFolder();
+  removeFile(element: FileElement) {
+
+    this.store.dispatch(removeFile({id:element.id as string}))
+
   }
 
 
   moveElement( value:any ) {
-    const {element:moveTo,self} = value
-    this.fileService.update(self.id as string, { parent: moveTo.id });
-    this.fileService.queryFolder();
+    // const {element:moveTo,self} = value
+    // this.fileService.update(self.id as string, { parent: moveTo.id });
+    // this.fileService.queryFolder();
+
   }
 
   renameElement(element: FileElement) {
-    this.fileService.update(element.id as string, { name: element.name });
+    // this.fileService.update(element.id as string, { name: element.name });
   }
 
 

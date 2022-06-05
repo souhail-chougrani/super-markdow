@@ -1,15 +1,15 @@
 <div class="container">
     <mat-sidenav-container class="sidenav-container" >
-      <mat-sidenav #snav [opened]="true" [mode]="'side'"
+      <mat-sidenav #snav [opened]="toggleSidebar$ |async" [mode]="'side'"
         fixedTopGap="56">
         <mat-nav-list>
           <app-sidebar-content
            (addNewFolder)="addFolder({name:'New folder'})" 
            (addNewFile)="addFile({name:'New File'})">
              <app-file-manager 
-               (removeFile)="removeElement($event)"
+               (removeFile)="removeFile($event)"
                (moveFile)="moveElement($event)"
-               [folders]="fileElements" *ngFor="let item of fileElements" 
+               [folders]="filesElements$ | async" *ngFor="let item of filesElements$ | async" 
                [fileElement]="item"
                ></app-file-manager>
           </app-sidebar-content>
