@@ -49,6 +49,7 @@ export class MarkdownComponent implements OnInit, OnDestroy {
     this.fileContentform.valueChanges.pipe(
       debounceTime(500),
       switchMap(formValue => of(formValue)),
+
       takeUntil(this.unsubscribe)
     )
   }
@@ -105,13 +106,13 @@ openDialog(isFolder:boolean){
     });
     const content: FileContent = {
       body: this.fileContentform.value?.markdown,
-      title: this.fileContentform.value?.title
+      title: this.fileContentform.value?.title,
     }
-
+    const tags = this.fileContentform.value?.tags
     dialogRef.afterClosed().subscribe(result => {
       if(result?.length){
-        const addedFolder: FileElement = isFolder ? { isFolder: isFolder, name: result, content, parent: 'root' }
-           : {isFolder:isFolder,name:result,parent:'root'}
+        const addedFolder: FileElement = isFolder ? { isFolder: isFolder, name: result,tags, content, parent: 'root' }
+           : {isFolder:isFolder,tags,content,name:result,parent:'root'}
         this.store.dispatch(addFile({file: addedFolder}))
 
       }

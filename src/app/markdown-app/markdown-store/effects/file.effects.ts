@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { merge, of, tap, withLatestFrom } from 'rxjs';
 import { AppState, selectSettingsState } from 'src/app/app-store/app.state';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { addFile, getFiles, updateFile } from '../actions';
+import { addFile, getFiles, removeFile, updateFile } from '../actions';
 import { getFilesVisualised, selectFilesState } from '../selectors';
 
 
@@ -23,7 +23,8 @@ export class FileEffects {
             this.actions$.pipe(
                 ofType(
                     addFile,
-                    updateFile
+                    updateFile,
+                    removeFile
                 ),
                 withLatestFrom(this.store.pipe(select(selectFilesState))),
                 tap(([action, settings]) => {
@@ -40,5 +41,6 @@ export class FileEffects {
             ),
         { dispatch: false }
     );
+
 
 }
