@@ -80,8 +80,6 @@ export class MarkdownComponent implements OnInit, OnDestroy {
 
   onDelete(id: string) {
     this.store.dispatch(removeFile({ id }));
-
-
   }
 
   onUpdate(file: FileElement) {
