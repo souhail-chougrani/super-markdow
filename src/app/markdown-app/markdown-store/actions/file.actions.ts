@@ -7,11 +7,6 @@ export const addFile = createAction(
     props<{file:FileElement}>()
 );
 
-// export const addFolder = createAction(
-//     '[Markdow File] Add Folder',
-//     props<{ name: string }>()
-// );
-
 export const removeFile = createAction(
     '[Markdow File]  remove file',
     props<{ id:string }>()
@@ -26,4 +21,8 @@ export const updateFile = createAction(
     '[Markdow File] Update file',
     props<{file:FileElement}>()
 );
+
+export const getFiles = createAction(
+    '[Markdow File] Get all files'
+)
 

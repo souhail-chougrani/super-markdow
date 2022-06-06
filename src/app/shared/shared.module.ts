@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { MarkdownComponent } from './markdown/markdown.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { DialogComponent } from './sidebar-filter/dialog/dialog.component';
+import { DialogComponent as MarkdownDialogComponent } from './markdown/dialog/dialog.component';
 
 
 
@@ -16,6 +18,8 @@ import { MarkdownModule } from 'ngx-markdown';
     SidebarFilterComponent,
     FileManagerComponent,
     MarkdownComponent,
+    DialogComponent,
+    MarkdownDialogComponent
   ],
   imports: [
     CommonModule,

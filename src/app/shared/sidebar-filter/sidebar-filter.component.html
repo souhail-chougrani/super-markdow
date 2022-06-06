@@ -8,11 +8,11 @@
         <mat-icon>add</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="addNewFolder.emit()">
+        <button mat-menu-item (click)="openDialog(true)">
             <span>Add new folder</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="addNewFile.emit()">
+        <button mat-menu-item (click)="openDialog(false)">
             <span>Add new file</span>
         </button>
     </mat-menu></div>

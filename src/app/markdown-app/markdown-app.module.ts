@@ -6,7 +6,8 @@ import { MarkdownAppComponent } from './markdown-app.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import  {StoreModule} from '@ngrx/store'
-import { reducers } from './markdown-store';
+import { FileEffects, reducers } from './markdown-store';
+import { EffectsFeatureModule, EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { reducers } from './markdown-store';
     CommonModule,
     ReactiveFormsModule,
     StoreModule.forFeature('files', reducers),
+    EffectsModule.forFeature([FileEffects]),
     MarkdownAppRoutingModule,
     SharedModule,
 

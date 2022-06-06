@@ -24,9 +24,24 @@
                     <button color="accent" mat-icon-button (click)="drawer.toggle()">
                         <mat-icon matSuffix>{{drawer.opened ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <button color="accent" mat-icon-button (click)="selectedFile?.id ? onUpdate(selectedFile): onSave()">
+                    <button *ngIf="selectedFile?.id;else AddTemplate" [matMenuTriggerFor]="selectedFile?.id? moveToMenu:null" color="accent" mat-icon-button (click)="onUpdate(selectedFile)">
                         <mat-icon>create_new_folder</mat-icon>
                     </button>
+                    <mat-menu #moveToMenu="matMenu" >
+                        
+                        <ng-template matMenuContent>
+                            <ng-container *ngFor="let element of folders$|async">
+                                <button *ngIf="element.isFolder"  mat-menu-item
+                                    >{{element.name}}
+                                </button>
+                            </ng-container>
+                        </ng-template>
+                    </mat-menu>
+                    <ng-template #AddTemplate>
+                        <button *ngIf="selectedFile?.id;else AddTemplate" [matMenuTriggerFor]="selectedFile?.id? moveToMenu:null" color="accent" mat-icon-button (click)="onSave()">
+                            <mat-icon>create_new_folder</mat-icon>
+                        </button>
+                    </ng-template>
                 </div>
                 <div>
                     <mat-form-field  class="fill-width" appearance="outline">
@@ -46,7 +61,7 @@
                 </div>
             </div>
             <div class="markdown-edit">
-                <textarea class="variable-textarea" formControlName="markdown"></textarea>
+                <textarea   cdkFocusInitial class="variable-textarea" formControlName="markdown"></textarea>
             </div>
         </form>
     </ng-container>

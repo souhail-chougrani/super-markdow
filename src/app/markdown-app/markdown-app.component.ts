@@ -5,7 +5,7 @@ import { AppState } from '../app-store/app.state';
 import { selectToggleSidebar } from '../app-store/settings/selectors/settings.selector';
 import { FileElement } from '../models/FileElement';
 import { FileService } from '../services/file.service';
-import { addFile, getFilesVisualised, getSelectedFile, removeFile } from './markdown-store';
+import { addFile, getFiles, getFilesVisualised, getSelectedFile, removeFile } from './markdown-store';
 import { FileState } from './markdown-store/reducers/file.reducer';
 
 @Component({
@@ -22,6 +22,7 @@ export class MarkdownAppComponent implements OnInit {
   constructor(public fileService: FileService,private store:Store<AppState>) { }
 
   ngOnInit(): void {
+    this.store.dispatch(getFiles())
     this.toggleSidebar$ = this.store.pipe(select(selectToggleSidebar));
     this.filesElements$ = this.store.pipe(select(getFilesVisualised))
     
@@ -29,8 +30,9 @@ export class MarkdownAppComponent implements OnInit {
 
 
   addFolder(folder: { name: string }, parent?: FileElement) {
-    const addedFolder :FileElement = {isFolder:true,name:folder.name,parent:'root'}
-    this.store.dispatch(addFile({file: addedFolder}))
+    console.log('add file')
+    // const addedFolder :FileElement = {isFolder:true,name:folder.name,parent:'root'}
+    // this.store.dispatch(addFile({file: addedFolder}))
   }
 
   addFile(file: { name: string }, parent?: FileElement) {

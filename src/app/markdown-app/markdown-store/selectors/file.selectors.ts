@@ -27,6 +27,11 @@ export const selectFilesEntities =  createSelector(
   export const getAllFiles = createSelector(selectFilesEntities, entities => {
     return Object.keys(entities).map(id => entities[id]);
   });
+
+  export const selectFolders = createSelector(
+    getAllFiles,
+    state => state.filter(folder=>folder.isFolder)
+  )
   
   export const getFilesVisualised = createSelector(
     getAllFiles,
