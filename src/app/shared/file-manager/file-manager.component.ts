@@ -72,7 +72,7 @@ export class FileManagerComponent implements OnInit {
   }
 
   onMoveFile(self:FileElement, moveTo:FileElement){
-    self = {...self,parent:moveTo.name}
+    self = {...self,parent:moveTo.id}
     this.store.dispatch(updateFile({file:self}))
   }
 
